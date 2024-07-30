@@ -1,20 +1,20 @@
 // src/pages/AdminDashboard.js
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
 const AdminDashboard = () => {
   const [feedbacks, setFeedbacks] = useState([]);
   const [filteredFeedbacks, setFilteredFeedbacks] = useState([]);
   const [filters, setFilters] = useState({
-    campus: '',
-    trainer: '',
-    batch: '',
-    feedback: ''
+    campus: "",
+    trainer: "",
+    batch: "",
+    feedback: "",
   });
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
-      const { data } = await axios.get('/api/feedback');
+      const { data } = await axios.get("/api/feedback");
       setFeedbacks(data);
       setFilteredFeedbacks(data);
     };
@@ -28,10 +28,11 @@ const AdminDashboard = () => {
 
     const filtered = feedbacks.filter((feedback) => {
       return (
-        (filters.campus === '' || feedback.campus === filters.campus) &&
-        (filters.trainer === '' || feedback.trainerName === filters.trainer) &&
-        (filters.batch === '' || feedback.batch === filters.batch) &&
-        (filters.feedback === '' || feedback.feedback.includes(filters.feedback))
+        (filters.campus === "" || feedback.campus === filters.campus) &&
+        (filters.trainer === "" || feedback.trainerName === filters.trainer) &&
+        (filters.batch === "" || feedback.batch === filters.batch) &&
+        (filters.feedback === "" ||
+          feedback.feedback.includes(filters.feedback))
       );
     });
 
