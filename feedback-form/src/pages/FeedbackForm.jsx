@@ -34,6 +34,7 @@ const FeedbackForm = () => {
       feedback,
       ratings,
     };
+    console.log("feedbackData-->", feedbackData);
     await axios.post("/api/feedback", feedbackData);
     alert("Feedback submitted successfully");
   };
@@ -74,7 +75,7 @@ const FeedbackForm = () => {
             type="text"
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
-            className="w-full px-3 py-2 rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
+            className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           />
         </div>
@@ -84,7 +85,7 @@ const FeedbackForm = () => {
             type="text"
             value={rollNo}
             onChange={(e) => setRollNo(e.target.value)}
-            className="w-full px-3 py-2 rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
+            className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           />
         </div>
@@ -94,7 +95,7 @@ const FeedbackForm = () => {
             type="text"
             value={trainerName}
             onChange={(e) => setTrainerName(e.target.value)}
-            className="w-full px-3 py-2 rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
+            className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           />
         </div>
@@ -103,7 +104,7 @@ const FeedbackForm = () => {
           <select
             value={CourseTitle}
             onChange={(e) => setCourseTitle(e.target.value)}
-            className="w-full px-3 py-2 text-black rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
+            className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           >
             <option value="">Select a course</option>
@@ -142,7 +143,7 @@ const FeedbackForm = () => {
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            className="w-full px-3 py-2 text-black rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
+            className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           />
         </div>
