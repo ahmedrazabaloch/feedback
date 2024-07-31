@@ -15,11 +15,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  // Removed deprecated options
-});
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
