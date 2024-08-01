@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const FeedbackForm = () => {
   const [studentName, setStudentName] = useState("");
@@ -23,6 +24,7 @@ const FeedbackForm = () => {
   const handleChange = (e) => {
     setRatings({ ...ratings, [e.target.name]: e.target.value });
   };
+
   const getAuthToken = () => {
     return localStorage.getItem("token");
   };
@@ -33,20 +35,28 @@ const FeedbackForm = () => {
       studentName,
       rollNo,
       trainerName,
-      trainingTitle: CourseTitle,
+      CourseTitle,
       feedback,
       ratings,
     };
     try {
       await axios.post("http://localhost:5000/api/feedback", feedbackData, {
         headers: {
-          Authorization: `Bearer ${getAuthToken()}`, // Add token to headers
+          Authorization: `Bearer ${getAuthToken()}`,
         },
       });
-      alert("Feedback submitted successfully");
+      Swal.fire({
+        icon: "success",
+        title: "Feedback submitted successfully",
+        text: "Thank you for your feedback!",
+      });
     } catch (error) {
       console.error("Error submitting feedback:", error);
-      alert("Error submitting feedback. Please try again.");
+      Swal.fire({
+        icon: "error",
+        title: "Submission Failed",
+        text: "Error submitting feedback. Please try again.",
+      });
     }
   };
 
@@ -114,7 +124,7 @@ const FeedbackForm = () => {
           <label className="block text-sm font-bold mb-2">Course</label>
           <select
             value={CourseTitle}
-            onChange={(e) => setCourseTitle(e.target.value)}
+            onChange={(e) => setCourseTitle(e.target.value)} 
             className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           >

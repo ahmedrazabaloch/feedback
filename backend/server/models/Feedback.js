@@ -4,7 +4,7 @@ const feedbackSchema = mongoose.Schema({
   studentName: { type: String, required: true },
   rollNo: { type: String, required: true },
   trainerName: { type: String, required: true },
-  CourseTitle: { type: String, required: true }, 
+  CourseTitle: { type: String, required: true },
   feedback: { type: String, required: true },
   ratings: {
     Objectives: { type: String },

@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 
 const SweetAlert = ({ message, icon }) => {
   Swal.fire({
-    icon: icon || "success", // default to 'success' if no icon is provided
+    icon: icon || "success", 
     title: message,
     toast: true,
     position: "top-end",

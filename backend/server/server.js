@@ -28,10 +28,13 @@ db.once("open", () => {
 // Import routes
 const userRoutes = require("./routes/userRoutes");
 const feedbackRoutes = require("./routes/feedbackRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // Use routes
 app.use("/api/users", userRoutes);
-app.use('/api/feedback', feedbackRoutes); // Prefix for feedback routes
+app.use("/api/feedback", feedbackRoutes);
+
+app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
