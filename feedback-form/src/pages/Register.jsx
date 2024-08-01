@@ -1,8 +1,8 @@
-// components/SignUp.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import SweetAlert from "../components/sweetAlert.js";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
@@ -17,9 +17,28 @@ const SignUp = () => {
     const userData = { fullName, rollNo, email, password };
     try {
       await register(userData);
+      SweetAlert({
+        message: `Registration successful! Welcome ${fullName}`,
+        icon: "success",
+      });
       navigate("/feedback");
     } catch (error) {
-      console.error("Sign Up error:", error);
+      if (error.response) {
+        const { status } = error.response;
+        if (status === 400) {
+          SweetAlert({ message: "User already exists", icon: "error" });
+        } else {
+          SweetAlert({
+            message: "An error occurred. Please try again.",
+            icon: "error",
+          });
+        }
+      } else {
+        SweetAlert({
+          message: "An error occurred. Please try again.",
+          icon: "error",
+        });
+      }
     }
   };
 
@@ -77,7 +96,7 @@ const SignUp = () => {
           Sign Up
         </button>
         <div className="mt-4 text-center flex gap-3 justify-center">
-          <p className="cursor-default">Already have a account?</p>
+          <p className="cursor-default">Already have an account?</p>
           <Link to="/" className="text-blue-500 font-bold">
             Login
           </Link>

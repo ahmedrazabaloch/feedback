@@ -40,6 +40,10 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
+  if (user) {
+    return res.status(400).json({ message: "User already exists" });
+  }
+
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
