@@ -1,10 +1,10 @@
-// controllers/userController.js
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
 
+// User Registration
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { fullName, rollNo, email, password } = req.body;
 
   const userExists = await User.findOne({ email });
 
@@ -14,7 +14,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 
   const user = await User.create({
-    name,
+    name: fullName,
+    rollNo,
     email,
     password,
   });
@@ -33,6 +34,7 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
+// User Authentication
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -52,9 +54,4 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getAllUsers = asyncHandler(async (req, res) => {
-  const users = await User.find({});
-  res.json(users);
-});
-
-module.exports = { registerUser, authUser, getAllUsers };
+module.exports = { registerUser, authUser };

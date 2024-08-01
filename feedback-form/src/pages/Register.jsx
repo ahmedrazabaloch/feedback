@@ -1,28 +1,33 @@
+// components/SignUp.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [rollNo, setRollNo] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = { fullName, rollNo, email, password };
-    console.log(userData);
-    login(userData);
-    navigate("/feedback");
+    try {
+      await register(userData);
+      navigate("/feedback");
+    } catch (error) {
+      console.error("Sign Up error:", error);
+    }
   };
 
   return (
     <div className="flex justify-center items-center min-h-screen">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow md:w-1/3 w-4/5 text-blue-500"
+        className="bg-white p-6 rounded shadow lg:w-1/3 md:w-1/3 sm:w-4/5 w-4/5 text-blue-500"
       >
         <h2 className="text-2xl mb-6 text-center font-bold">Sign Up</h2>
         <div className="mb-4">
@@ -71,6 +76,12 @@ const SignUp = () => {
         >
           Sign Up
         </button>
+        <div className="mt-4 text-center flex gap-3 justify-center">
+          <p className="cursor-default">Already have a account?</p>
+          <Link to="/" className="text-blue-500 font-bold">
+            Login
+          </Link>
+        </div>
       </form>
     </div>
   );

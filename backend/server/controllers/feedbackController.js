@@ -1,8 +1,9 @@
 // controllers/feedbackController.js
-const Feedback = require('../models/Feedback');
-const asyncHandler = require('express-async-handler');
+const Feedback = require("../models/Feedback");
+const asyncHandler = require("express-async-handler");
 
 const submitFeedback = asyncHandler(async (req, res) => {
+  console.log("Received feedback data:", req.body);
   const feedback = new Feedback(req.body);
   const createdFeedback = await feedback.save();
   res.status(201).json(createdFeedback);

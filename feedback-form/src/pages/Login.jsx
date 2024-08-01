@@ -9,10 +9,10 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = { email, password }; // Replace with actual authentication logic
-    login(userData);
+    const userData = { email, password };
+    await login(userData);
     navigate("/feedback");
   };
 
@@ -20,7 +20,7 @@ const Login = () => {
     <div className="flex justify-center items-center min-h-screen shadow-lg">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-6 rounded shadow md:w-1/3 w-4/5 text-blue-500"
+        className="bg-white p-6 rounded shadow lg:w-1/3 md:w-1/3 sm:w-4/5 w-4/5 text-blue-500"
       >
         <h2 className="text-2xl mb-6 text-center font-bold">Login</h2>
         <div className="mb-4">
@@ -52,7 +52,7 @@ const Login = () => {
           Login
         </button>
         <div className="mt-4 text-center flex gap-3 justify-center">
-          <p>Don't have an account?</p>
+          <p className="cursor-default">Don't have an account?</p>
           <Link to="/signup" className="text-blue-500 font-bold">
             Sign Up
           </Link>

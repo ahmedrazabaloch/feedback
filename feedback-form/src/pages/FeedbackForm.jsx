@@ -23,6 +23,9 @@ const FeedbackForm = () => {
   const handleChange = (e) => {
     setRatings({ ...ratings, [e.target.name]: e.target.value });
   };
+  const getAuthToken = () => {
+    return localStorage.getItem("token");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,13 +33,21 @@ const FeedbackForm = () => {
       studentName,
       rollNo,
       trainerName,
-      CourseTitle,
+      trainingTitle: CourseTitle,
       feedback,
       ratings,
     };
-    console.log("feedbackData-->", feedbackData);
-    await axios.post("/api/feedback", feedbackData);
-    alert("Feedback submitted successfully");
+    try {
+      await axios.post("http://localhost:5000/api/feedback", feedbackData, {
+        headers: {
+          Authorization: `Bearer ${getAuthToken()}`, // Add token to headers
+        },
+      });
+      alert("Feedback submitted successfully");
+    } catch (error) {
+      console.error("Error submitting feedback:", error);
+      alert("Error submitting feedback. Please try again.");
+    }
   };
 
   const ratingOptions = [
