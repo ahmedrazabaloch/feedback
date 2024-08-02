@@ -15,18 +15,26 @@ const Login = () => {
     const userData = { email, password };
     try {
       await login(userData);
-      SweetAlert({ message: "Login successful!", icon: 'success' });
+      SweetAlert({ message: "Login successful!", icon: "success" });
       navigate("/feedback");
     } catch (error) {
+      console.error("Login error:", error); // Log the error for debugging
       if (error.response) {
         const { status } = error.response;
+        console.log("Error response data:", error.response.data); // Log the response data for more insights
         if (status === 400) {
-          SweetAlert({ message: "Invalid email or password", icon: 'error' });
+          SweetAlert({ message: "Invalid email or password", icon: "error" });
         } else {
-          SweetAlert({ message: "An error occurred. Please try again.", icon: 'error' });
+          SweetAlert({
+            message: "An error occurred. Please try again.",
+            icon: "error",
+          });
         }
       } else {
-        SweetAlert({ message: "An error occurred. Please try again.", icon: 'error' });
+        SweetAlert({
+          message: "An error occurred. Please try again.",
+          icon: "error",
+        });
       }
     }
   };

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { submitFeedback, getFeedback } = require("../controllers/feedbackController");
-const { protect, admin } = require("../middleware/authMiddleware"); // Adjust the path to your middleware
+const { protect, admin } = require("../middleware/authMiddleware"); 
 
 // Route to submit feedback (accessible by authenticated users)
 router.post("/", protect, submitFeedback);
