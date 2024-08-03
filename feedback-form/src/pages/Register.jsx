@@ -74,7 +74,7 @@ const SignUp = () => {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.toLowerCase())}
             className="w-full px-3 py-2 text-black rounded border border-blue-600 outline-none focus:border-green-500 hover:border-green-500"
             required
           />

@@ -18,15 +18,13 @@ const Login = () => {
       SweetAlert({ message: "Login successful!", icon: "success" });
       navigate("/feedback");
     } catch (error) {
-      console.error("Login error:", error); // Log the error for debugging
       if (error.response) {
         const { status } = error.response;
-        console.log("Error response data:", error.response.data); // Log the response data for more insights
         if (status === 400) {
           SweetAlert({ message: "Invalid email or password", icon: "error" });
         } else {
           SweetAlert({
-            message: "An error occurred. Please try again.",
+            message: "Invalid email or password.",
             icon: "error",
           });
         }
@@ -51,7 +49,7 @@ const Login = () => {
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value.toLowerCase())}
             className="w-full px-3 py-2 text-black rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
             placeholder="example@example.com"
             required
