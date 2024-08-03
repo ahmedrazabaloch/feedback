@@ -15,3 +15,19 @@ const getFeedback = asyncHandler(async (req, res) => {
 });
 
 module.exports = { submitFeedback, getFeedback };
+
+// const Feedback = require('../models/Feedback');
+
+// const submitFeedback = async (req, res) => {
+//   const { feedback } = req.body;
+//   const newFeedback = new Feedback({ feedback, user: req.user._id });
+//   await newFeedback.save();
+//   res.status(201).json(newFeedback);
+// };
+
+// const getFeedback = async (req, res) => {
+//   const feedbacks = await Feedback.find({}).populate('user', 'name rollNo');
+//   res.json(feedbacks);
+// };
+
+// module.exports = { submitFeedback, getFeedback };

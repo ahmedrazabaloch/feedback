@@ -23,7 +23,7 @@ const asyncHandler = require("express-async-handler");
 //   }
 // });
 
-const protect = asyncHandler(async (req, res, next) => {
+const protect = async (req, res, next) => {
   let token;
 
   if (
@@ -32,21 +32,20 @@ const protect = asyncHandler(async (req, res, next) => {
   ) {
     try {
       token = req.headers.authorization.split(" ")[1];
-      console.log("Token:", token); // Log the token for debugging
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       req.user = await User.findById(decoded.id).select("-password");
-      console.log("User:", req.user); // Log the user object
       next();
     } catch (error) {
-      console.error("Token verification error:", error);
       res.status(401);
       throw new Error("Not authorized, token failed");
     }
-  } else {
+  }
+
+  if (!token) {
     res.status(401);
     throw new Error("Not authorized, no token");
   }
-});
+};
 
 const admin = (req, res, next) => {
   if (req.user && req.user.isAdmin) {
@@ -58,3 +57,41 @@ const admin = (req, res, next) => {
 };
 
 module.exports = { protect, admin };
+
+
+
+// const jwt = require("jsonwebtoken");
+// const User = require("../models/User");
+
+// const protect = async (req, res, next) => {
+//   let token;
+
+//   if (
+//     req.headers.authorization &&
+//     req.headers.authorization.startsWith("Bearer")
+//   ) {
+//     try {
+//       token = req.headers.authorization.split(" ")[1];
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       req.user = await User.findById(decoded.id).select("-password");
+//       next();
+//     } catch (error) {
+//       res.status(401);
+//       throw new Error("Not authorized, token failed");
+//     }
+//   } else {
+//     res.status(401);
+//     throw new Error("Not authorized, no token");
+//   }
+// };
+
+// const admin = (req, res, next) => {
+//   if (req.user && req.user.isAdmin) {
+//     next();
+//   } else {
+//     res.status(401);
+//     throw new Error("Not authorized as admin");
+//   }
+// };
+
+// module.exports = { protect, admin };
