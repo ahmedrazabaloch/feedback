@@ -1,3 +1,4 @@
+// controllers/userController.js
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
@@ -6,9 +7,14 @@ const generateToken = require("../utils/generateToken");
 const registerUser = asyncHandler(async (req, res) => {
   const { fullName, rollNo, email, password } = req.body;
 
-  const userExists = await User.findOne({ email });
+  const userEmail = await User.findOne({ email });
+  const userRollNo = await User.findOne({ rollNo });
 
-  if (userExists) {
+  if (userEmail) {
+    res.status(400);
+    throw new Error("User already exists");
+  }
+  if (userRollNo) {
     res.status(400);
     throw new Error("User already exists");
   }
@@ -24,6 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       _id: user._id,
       name: user.name,
+      rollNo: user.rollNo,
       email: user.email,
       isAdmin: user.isAdmin,
       token: generateToken(user._id),
@@ -47,16 +54,38 @@ const authUser = asyncHandler(async (req, res) => {
       return;
     }
 
+    const token = generateToken(user._id);
     res.json({
       _id: user._id,
       name: user.name,
+      rollNo: user.rollNo,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id),
+      token,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-module.exports = { registerUser, authUser };
+const getUserProfile = asyncHandler(async (req, res) => {
+  if (!req.user) {
+    res.status(401).json({ message: "Not authorized" });
+    return;
+  }
+
+  const user = await User.findById(req.user._id).select("-password"); // Exclude password
+  if (user) {
+    res.json({
+      _id: user._id,
+      name: user.name,
+      rollNo: user.rollNo,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+  } else {
+    res.status(404).json({ message: "User not found" });
+  }
+});
+
+module.exports = { registerUser, authUser, getUserProfile };

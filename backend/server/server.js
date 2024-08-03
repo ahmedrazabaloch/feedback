@@ -1,3 +1,4 @@
+// ./server.js
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -33,7 +34,6 @@ const adminRoutes = require("./routes/adminRoutes");
 // Use routes
 app.use("/api/users", userRoutes);
 app.use("/api/feedback", feedbackRoutes);
-
 app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 5000;
