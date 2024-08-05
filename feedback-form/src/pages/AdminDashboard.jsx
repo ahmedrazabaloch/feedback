@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const AdminDashboard = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -13,9 +14,32 @@ const AdminDashboard = () => {
 
   useEffect(() => {
     const fetchFeedbacks = async () => {
-      const { data } = await axios.get("/api/feedback");
-      setFeedbacks(data);
-      setFilteredFeedbacks(data);
+      try {
+        const token = JSON.parse(localStorage.getItem("user")).token;
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const { data } = await axios.get(
+          "http://localhost:5000/api/feedback",
+          config
+        );
+        if (Array.isArray(data)) {
+          setFeedbacks(data);
+          setFilteredFeedbacks(data);
+        } else {
+          console.error("Fetched data is not an array:", data);
+        }
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Error fetching student data. Please try again.",
+        });
+      }
     };
 
     fetchFeedbacks();
@@ -112,4 +136,3 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
-

@@ -22,6 +22,7 @@ const App = () => {
             path="/dashboard"
             element={<PrivateRoute element={<Dashboard />} />}
           />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
         </Routes>
       </Router>
     </AuthProvider>
