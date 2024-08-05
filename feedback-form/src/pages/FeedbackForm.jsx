@@ -126,15 +126,26 @@ const FeedbackForm = () => {
     "Sir Rizwan Jamal",
   ];
 
+  const logout = (e) => {
+    e.preventDefault();
+    console.log("logout working");
+  };
+
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100 p-4 text-blue-500">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-10 rounded shadow-md w-full max-w-screen-sm"
+        className="bg-white p-10 rounded shadow-md w-full max-w-screen-sm relative"
       >
         <h2 className="text-2xl mb-8 text-black font-bold text-center">
           Feedback Form
         </h2>
+        <button
+          className="absolute top-5 right-5 border px-4 py-2 rounded bg-red-600 text-white outline-none"
+          onClick={logout}
+        >
+          Logout
+        </button>
         {loading ? (
           Swal.showLoading()
         ) : (
