@@ -1,4 +1,3 @@
-// controllers/userController.js
 const User = require("../models/User");
 const asyncHandler = require("express-async-handler");
 const generateToken = require("../utils/generateToken");
@@ -88,33 +87,3 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
 module.exports = { registerUser, authUser, getUserProfile };
 
-// // controllers/userController.js
-// const User = require("../models/User");
-// const asyncHandler = require("express-async-handler");
-// const generateToken = require("../utils/generateToken");
-// const bcrypt = require("bcryptjs");
-
-// // @desc    Auth user & get token
-// // @route   POST /api/users/login
-// // @access  Public
-// const authUser = asyncHandler(async (req, res) => {
-//   const { email, password } = req.body;
-//   console.log("Login request:", email, password);
-
-//   const user = await User.findOne({ email });
-//   console.log("User found:", user);
-
-//   if (user && (await bcrypt.compare(password, user.password))) {
-//     res.json({
-//       _id: user._id,
-//       email: user.email,
-//       isAdmin: user.isAdmin,
-//       token: generateToken(user._id),
-//     });
-//   } else {
-//     res.status(401);
-//     throw new Error("Invalid email or password");
-//   }
-// });
-
-// module.exports = { authUser };

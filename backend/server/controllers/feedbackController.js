@@ -1,4 +1,3 @@
-// controllers/feedbackController.js
 const Feedback = require("../models/Feedback");
 const asyncHandler = require("express-async-handler");
 

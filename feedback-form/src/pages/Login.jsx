@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import SweetAlert from "../components/sweetAlert.js";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,28 +12,9 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = { email, password };
-    try {
-      await login(userData);
-      SweetAlert({ message: "Login successful!", icon: "success" });
-      navigate("/feedback");
-    } catch (error) {
-      if (error.response) {
-        const { status } = error.response;
-        if (status === 400) {
-          SweetAlert({ message: "Invalid email or password", icon: "error" });
-        } else {
-          SweetAlert({
-            message: "Invalid email or password.",
-            icon: "error",
-          });
-        }
-      } else {
-        SweetAlert({
-          message: "An error occurred. Please try again.",
-          icon: "error",
-        });
-      }
-    }
+    await login(userData);
+    // navigate("/feedback");
+    navigate("/dashboard");
   };
 
   return (

@@ -1,4 +1,4 @@
-const Admin = require("../models/Admin"); // Ensure this is correct
+const Admin = require("../models/Admin"); 
 
 const createAdmin = async (req, res) => {
   const { name, email, password } = req.body;

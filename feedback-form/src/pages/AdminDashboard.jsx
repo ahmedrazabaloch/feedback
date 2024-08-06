@@ -22,10 +22,12 @@ const AdminDashboard = () => {
             Authorization: `Bearer ${token}`,
           },
         };
+        console.log("Admin dashboard config:-->", config);
         const { data } = await axios.get(
           "http://localhost:5000/api/feedback",
           config
         );
+        console.log("Fetched data-->", data);
         if (Array.isArray(data)) {
           setFeedbacks(data);
           setFilteredFeedbacks(data);
@@ -33,11 +35,11 @@ const AdminDashboard = () => {
           console.error("Fetched data is not an array:", data);
         }
       } catch (error) {
-        console.error("Error fetching student data:", error);
+        console.error("Error fetching feedback data:", error);
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Error fetching student data. Please try again.",
+          text: "Error fetching feedback data. Please try again.",
         });
       }
     };
@@ -103,20 +105,20 @@ const AdminDashboard = () => {
         <thead>
           <tr>
             <th className="border px-4 py-2">Student Name</th>
+            <th className="border px-4 py-2">Roll No</th>
             <th className="border px-4 py-2">Trainer Name</th>
-            <th className="border px-4 py-2">Training Title</th>
+            <th className="border px-4 py-2">Course Title</th>
             <th className="border px-4 py-2">Feedback</th>
             <th className="border px-4 py-2">Ratings</th>
-            <th className="border px-4 py-2">Campus</th>
-            <th className="border px-4 py-2">Batch</th>
           </tr>
         </thead>
         <tbody>
           {filteredFeedbacks.map((feedback) => (
             <tr key={feedback._id}>
               <td className="border px-4 py-2">{feedback.studentName}</td>
+              <td className="border px-4 py-2">{feedback.rollNo}</td>
               <td className="border px-4 py-2">{feedback.trainerName}</td>
-              <td className="border px-4 py-2">{feedback.trainingTitle}</td>
+              <td className="border px-4 py-2">{feedback.CourseTitle}</td>
               <td className="border px-4 py-2">{feedback.feedback}</td>
               <td className="border px-4 py-2">
                 {Object.keys(feedback.ratings).map((key) => (
@@ -125,8 +127,6 @@ const AdminDashboard = () => {
                   </div>
                 ))}
               </td>
-              <td className="border px-4 py-2">{feedback.campus}</td>
-              <td className="border px-4 py-2">{feedback.batch}</td>
             </tr>
           ))}
         </tbody>
