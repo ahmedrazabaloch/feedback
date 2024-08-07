@@ -1,20 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  //getting admin data from the backend
+  useEffect(() => {
+    const fetchStudentData = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem("user")).token;
+        const config = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const { data } = await axios.get(
+          "http://localhost:5000/api/admin",
+          config
+        );
+        data.forEach((item) => {
+          console.log(`Email: ${item.email}, isAdmin: ${item.isAdmin}`);
+        });
+      } catch (error) {
+        console.error("Error fetching student data:", error);
+      }
+    };
+
+    fetchStudentData();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = { email, password };
     await login(userData);
-    // navigate("/feedback");
-    navigate("/dashboard");
+    navigate("/feedback");
+    // navigate("/dashboard");
   };
 
   return (
