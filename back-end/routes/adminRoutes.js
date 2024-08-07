@@ -5,6 +5,6 @@ const { createAdmin, getAdmins } = require("../controllers/adminController");
 
 router.post("/create", createAdmin);
 // router.get('/', protect, admin, getAdmins);
-router.get("/", getAdmins);
+router.get("/", protect, getAdmins);
 
 module.exports = router;

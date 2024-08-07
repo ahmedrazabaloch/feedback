@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import axios from "axios";
-import SweetAlert from "../components/sweetAlert.js";
+import SweetAlert from "../components/SweetAlert.js";
 
 const AuthContext = createContext();
 
@@ -9,26 +9,23 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const login = async (userData) => {
+  const login = async (userData, isAdmin) => {
     try {
-      console.log("userData auth context-->", userData);
-      const { data } = await axios.post(
-        "http://localhost:5000/api/users/login",
-        userData
-      );
+      const endpoint = isAdmin
+        ? "http://localhost:5000/api/users/login/admin"
+        : "http://localhost:5000/api/users/login/user";
+      const { data } = await axios.post(endpoint, userData);
       SweetAlert({ message: "Login successful!", icon: "success" });
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
+      return data;
     } catch (error) {
       if (error.response) {
         const { status } = error.response;
         if (status === 400) {
           SweetAlert({ message: "Invalid email or password", icon: "error" });
         } else {
-          SweetAlert({
-            message: "Invalid email or password.",
-            icon: "error",
-          });
+          SweetAlert({ message: "Invalid email or password.", icon: "error" });
         }
       } else {
         SweetAlert({

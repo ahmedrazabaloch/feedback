@@ -1,4 +1,2 @@
 .env
 node_modules
-checkPassword.js
-createAdmin.js

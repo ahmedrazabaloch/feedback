@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import SweetAlert from "../components/sweetAlert.js";
+import SweetAlert from "../components/SweetAlert.js";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");

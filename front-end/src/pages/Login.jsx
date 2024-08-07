@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -11,38 +10,55 @@ const Login = () => {
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  //getting admin data from the backend
-  useEffect(() => {
-    const fetchStudentData = async () => {
-      try {
-        const token = JSON.parse(localStorage.getItem("user")).token;
-        const config = {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        };
-        const { data } = await axios.get(
-          "http://localhost:5000/api/admin",
-          config
-        );
-        data.forEach((item) => {
-          console.log(`Email: ${item.email}, isAdmin: ${item.isAdmin}`);
-        });
-      } catch (error) {
-        console.error("Error fetching student data:", error);
-      }
-    };
+  //   useEffect(() => {
+  //     const fetchStudentData = async () => {
+  //       try {
+  //         const token = JSON.parse(localStorage.getItem("user")).token;
+  //         const config = {
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //             Authorization: `Bearer ${token}`,
+  //           },
+  //         };
+  //         const { data } = await axios.get(
+  //           "http://localhost:5000/api/admin",
+  //           config
+  //         );
+  //         // const currentUser = JSON.parse(localStorage.getItem("user")).email;
+  //         // console.log("currentUser-->", currentUser);
 
-    fetchStudentData();
-  }, []);
+  //         const adminUser = data.find((item) =>
+  //           console.log("adminUser data find", item.email === email)
+  //         );
+  //         // const adminUser = data.forEach((item) => item.email === currentUser);
+  //         console.log("adminUser-->", adminUser);
+  //         if (adminUser) {
+  //           setIsAdmin(adminUser.isAdmin);
+  //         }
+  //       } catch (error) {
+  //         console.error("Error fetching student data:", error);
+  //       }
+  //     };
+
+  //     fetchStudentData();
+  //   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = { email, password };
-    await login(userData);
-    navigate("/feedback");
-    // navigate("/dashboard");
+
+    try {
+      const data = await login(userData, isAdmin);
+
+      if (data && data.isAdmin) {
+        console.log("data.isAdmin-->", data.isAdmin);
+        navigate("/dashboard");
+      } else {
+        navigate("/feedback");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+    }
   };
 
   return (
@@ -73,6 +89,18 @@ const Login = () => {
             className="w-full px-3 py-2 text-black rounded border border-green-600 outline-none focus:border-blue-500 hover:border-blue-500"
             required
           />
+        </div>
+        <div className="mb-4">
+          <label className="inline-flex items-center">
+            <input
+              type="checkbox"
+              checked={isAdmin}
+              onChange={() => setIsAdmin(!isAdmin)}
+              className="form-checkbox"
+            />
+            <span className="ml-2">Admin Login</span>
+          </label>
+          {console.log("isAdmin-->", isAdmin)}
         </div>
         <button
           type="submit"
