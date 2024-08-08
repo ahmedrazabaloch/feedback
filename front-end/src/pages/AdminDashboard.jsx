@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import SweetAlert from "../components/sweetAlert.js";
+import SweetAlert from "../components/SweetAlert.js";
 
 const AdminDashboard = () => {
   const [feedbacks, setFeedbacks] = useState([]);
