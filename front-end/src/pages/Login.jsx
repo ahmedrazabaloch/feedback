@@ -7,7 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-  const { login } = useAuth();
+  const { login, setUser } = useAuth();
   const navigate = useNavigate();
 
   //   useEffect(() => {
@@ -46,11 +46,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = { email, password };
-
     try {
       const data = await login(userData, isAdmin);
-
       if (data && data.isAdmin) {
+        console.log("data && data.isAdmin-->", data && data.isAdmin);
         console.log("data.isAdmin-->", data.isAdmin);
         navigate("/dashboard");
       } else {

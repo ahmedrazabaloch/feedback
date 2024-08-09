@@ -10,11 +10,13 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
   const login = async (userData, isAdmin) => {
+    console.log("userData-->", userData);
     try {
       const endpoint = isAdmin
         ? "http://localhost:5000/api/users/login/admin"
         : "http://localhost:5000/api/users/login/user";
       const { data } = await axios.post(endpoint, userData);
+      console.log("data-->", data);
       SweetAlert({ message: "Login successful!", icon: "success" });
       setUser(data);
       localStorage.setItem("user", JSON.stringify(data));
